@@ -1,0 +1,46 @@
+-- check columns for same max char
+
+SELECT
+    COUNT(*) = 0 AS max_values_are_equivalent
+FROM
+    information_schema.columns AS c1
+JOIN
+    information_schema.columns AS c2
+ON
+    c1.table_schema = 'your_database_name_1' AND c2.table_schema = 'your_database_name_2'
+    AND c1.table_name = 'your_table_name' AND c2.table_name = 'your_table_name'
+    AND c1.column_name = c2.column_name
+    AND (
+        (c1.data_type LIKE '%char%' AND c1.CHARACTER_MAXIMUM_LENGTH = c2.CHARACTER_MAXIMUM_LENGTH)
+        OR
+        (c1.data_type IN ('tinyint', 'smallint', 'mediumint', 'int', 'bigint') 
+         AND IFNULL(c1.NUMERIC_PRECISION, 0) = IFNULL(c2.NUMERIC_PRECISION, 0)
+         AND IFNULL(c1.NUMERIC_SCALE, 0) = IFNULL(c2.NUMERIC_SCALE, 0)
+        )
+    );
+
+-- check columns for same column data types
+SELECT
+    COUNT(*) = 0 AS datatypes_are_equivalent
+FROM
+    information_schema.columns AS c1
+JOIN
+    information_schema.columns AS c2
+ON
+    c1.table_schema = 'your_database_name_1' AND c2.table_schema = 'your_database_name_2'
+    AND c1.table_name = 'your_table_name' AND c2.table_name = 'your_table_name'
+    AND c1.column_name = c2.column_name
+    AND c1.data_type = c2.data_type;
+
+
+-- check columns for same number of columns and names of columns
+SELECT
+    COUNT(*) = 0 AS schemas_are_equivalent
+FROM
+    information_schema.columns AS c1
+JOIN
+    information_schema.columns AS c2
+ON
+    c1.table_schema = 'your_database_name_1' AND c2.table_schema = 'your_database_name_2'
+    AND c1.table_name = 'your_table_name' AND c2.table_name = 'your_table_name'
+    AND c1.column_name = c2.column_name;
