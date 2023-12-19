@@ -44,3 +44,12 @@ ON
     c1.table_schema = 'your_database_name_1' AND c2.table_schema = 'your_database_name_2'
     AND c1.table_name = 'your_table_name' AND c2.table_name = 'your_table_name'
     AND c1.column_name = c2.column_name;
+
+-- Connect to database A
+USE A;
+
+-- Create a new table in database A based on the schema of a table in database B
+CREATE TABLE new_table LIKE B.existing_table;
+
+-- Copy data from the existing table in database B to the new table in database A
+INSERT INTO new_table SELECT * FROM B.existing_table;
