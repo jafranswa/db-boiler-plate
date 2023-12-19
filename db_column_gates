@@ -45,6 +45,8 @@ ON
     AND c1.table_name = 'your_table_name' AND c2.table_name = 'your_table_name'
     AND c1.column_name = c2.column_name;
 
+-- copy single table schema from one db to another
+
 -- Connect to database A
 USE A;
 
